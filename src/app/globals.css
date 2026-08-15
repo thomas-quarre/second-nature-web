@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-canvas-deep: var(--canvas-deep);
+  --color-foam: var(--foam);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-forest: var(--forest);
+  --color-forest-deep: var(--forest-deep);
+  --color-pollen: var(--pollen);
+  --color-earth: var(--earth);
+  --color-mist: var(--mist);
+  --font-display: var(--font-sn);
+  --font-body: var(--font-sn);
+  --font-mono: var(--font-sn);
+  --font-serif: var(--font-sn);
+}
+
+:root {
+  /* Page canvas matches Usal shop grey (#E0E0E0), not deck cream */
+  --canvas: #e0e0e0;
+  --canvas-deep: #d4d4d4;
+  --foam: #f2f2f2;
+  --ink: #141210;
+  --ink-soft: #3a372f;
+  --forest: #405030;
+  --forest-deep: #2c3822;
+  --pollen: #e5f97a;
+  --earth: #3a2e22;
+  --mist: #bdbdbd;
+  --motion-fast: 160ms;
+  --motion-base: 280ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --font-sn: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
+
+  body {
+    margin: 0;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-body);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--pollen);
+    color: var(--ink);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marqyVertical {
+  from {
+    transform: translateZ(0);
+  }
+  to {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@keyframes hero-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+
+/* Usal-style vertical product feed (pause on hover) */
+.marqy-root {
+  overflow: hidden;
+  position: relative;
+}
+
+.marqy-content.marqy-vertical {
+  flex: 1 0 auto;
+  animation-name: marqyVertical;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+  will-change: transform;
+}
+
+.marqy-root[data-pause-on-hover]:hover .marqy-content {
+  animation-play-state: paused;
+}
+
+.hero-ambient {
+  animation: hero-drift 14s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .hero-ambient,
+  .marqy-content.marqy-vertical {
+    animation: none;
+  }
+}
